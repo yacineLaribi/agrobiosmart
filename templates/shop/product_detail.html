@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Smart Blender NPK{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Breadcrumb -->
+    <div class="mb-6 text-sm text-gray-600">
+        <a href="{% url 'home' %}" class="hover:text-agri-green">Home</a> / 
+        <a href="{% url 'product_list' %}" class="hover:text-agri-green">Products</a> / 
+        <span class="text-gray-800">{{ product.name }}</span>
+    </div>
+
+    <!-- Product Detail -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+        <!-- Product Image -->
+        <div class="bg-gray-200 rounded-lg overflow-hidden">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-96 object-cover">
+            {% else %}
+            <div class="w-full h-96 flex items-center justify-center">
+                <svg class="w-32 h-32 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Info -->
+        <div>
+            <div class="mb-4">
+                <span class="text-sm text-gray-500">{{ product.category.name }}</span>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ product.name }}</h1>
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-agri-accent text-white px-4 py-2 rounded-lg font-semibold">NPK: {{ product.npk_ratio }}</span>
+                {% if product.in_stock %}
+                <span class="text-green-600 font-semibold">In Stock ({{ product.stock }} available)</span>
+                {% else %}
+                <span class="text-red-600 font-semibold">Out of Stock</span>
+                {% endif %}
+            </div>
+            <div class="text-4xl font-bold text-agri-green mb-6">${{ product.price }}</div>
+            
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Description</h2>
+                <p class="text-gray-600 leading-relaxed">{{ product.description }}</p>
+            </div>
+
+            <div class="mb-6 bg-gray-50 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Recommended Dosage</h2>
+                <p class="text-gray-600 leading-relaxed">{{ product.dosage_info }}</p>
+            </div>
+
+            <!-- Add to Cart Form -->
+            <form method="post" action="{% url 'cart_add' product.id %}" class="mb-6">
+                {% csrf_token %}
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="quantity" class="text-gray-700 font-semibold">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-agri-green">
+                </div>
+                {% if product.in_stock %}
+                <button type="submit" class="w-full bg-agri-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-agri-light transition">
+                    Add to Cart
+                </button>
+                {% else %}
+                <button type="button" disabled class="w-full bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
+                    Out of Stock
+                </button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="border-t pt-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8">Related Products</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for related in related_products %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
+                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                    {% if related.image %}
+                    <img src="{{ related.image.url }}" alt="{{ related.name }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    {% endif %}
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ related.name }}</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-agri-green">${{ related.price }}</span>
+                        <a href="{% url 'product_detail' related.slug %}" class="text-agri-green hover:text-agri-light">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

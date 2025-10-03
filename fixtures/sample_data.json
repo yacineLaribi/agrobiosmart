@@ -1,0 +1,138 @@
+[
+  {
+    "model": "shop.category",
+    "pk": 1,
+    "fields": {
+      "name": "All-Purpose Fertilizers",
+      "slug": "all-purpose-fertilizers",
+      "description": "Balanced NPK blends suitable for a wide variety of crops and plants",
+      "created_at": "2025-01-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 2,
+    "fields": {
+      "name": "Nitrogen-Rich Fertilizers",
+      "slug": "nitrogen-rich-fertilizers",
+      "description": "High nitrogen content for leafy growth and green foliage",
+      "created_at": "2025-01-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 3,
+    "fields": {
+      "name": "Phosphorus Boosters",
+      "slug": "phosphorus-boosters",
+      "description": "Enhanced phosphorus for root development and flowering",
+      "created_at": "2025-01-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 4,
+    "fields": {
+      "name": "Potassium Supplements",
+      "slug": "potassium-supplements",
+      "description": "High potassium for fruit development and disease resistance",
+      "created_at": "2025-01-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+      "name": "Smart Blend 10-10-10",
+      "slug": "smart-blend-10-10-10",
+      "category": 1,
+      "description": "Our most popular all-purpose fertilizer with balanced NPK ratio. Perfect for vegetables, flowers, and general garden use. Provides steady nutrition throughout the growing season.",
+      "npk_ratio": "10-10-10",
+      "dosage_info": "Apply 2-3 pounds per 100 square feet. Mix into soil before planting or side-dress established plants every 4-6 weeks during growing season.",
+      "price": "24.99",
+      "stock": 150,
+      "available": true,
+      "created_at": "2025-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+      "name": "Green Boost 20-5-10",
+      "slug": "green-boost-20-5-10",
+      "category": 2,
+      "description": "High nitrogen formula designed for lush, green foliage. Ideal for lawns, leafy vegetables, and ornamental plants that need vigorous vegetative growth.",
+      "npk_ratio": "20-5-10",
+      "dosage_info": "Apply 1-2 pounds per 100 square feet. For lawns, apply every 6-8 weeks during active growth. Water thoroughly after application.",
+      "price": "29.99",
+      "stock": 120,
+      "available": true,
+      "created_at": "2025-01-16T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+      "name": "Root Master 5-20-10",
+      "slug": "root-master-5-20-10",
+      "category": 3,
+      "description": "Phosphorus-rich formula that promotes strong root development and early plant establishment. Excellent for transplanting and starting new gardens.",
+      "npk_ratio": "5-20-10",
+      "dosage_info": "Apply 1.5-2 pounds per 100 square feet at planting time. Mix into root zone. Reapply every 8-10 weeks for established plants.",
+      "price": "27.99",
+      "stock": 95,
+      "available": true,
+      "created_at": "2025-01-17T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+      "name": "Bloom Pro 10-30-20",
+      "slug": "bloom-pro-10-30-20",
+      "category": 3,
+      "description": "Premium flowering formula with high phosphorus content. Encourages abundant blooms and fruit set. Perfect for flowering plants, tomatoes, and fruit trees.",
+      "npk_ratio": "10-30-20",
+      "dosage_info": "Apply 1-2 pounds per 100 square feet when flower buds appear. Repeat every 3-4 weeks during flowering period. Avoid over-application.",
+      "price": "32.99",
+      "stock": 80,
+      "available": true,
+      "created_at": "2025-01-18T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+      "name": "Fruit Power 5-10-30",
+      "slug": "fruit-power-5-10-30",
+      "category": 4,
+      "description": "High potassium formula designed for fruit development and overall plant health. Improves fruit quality, size, and disease resistance.",
+      "npk_ratio": "5-10-30",
+      "dosage_info": "Apply 2-3 pounds per 100 square feet during fruit development stage. For fruit trees, apply in early spring and again after fruit set.",
+      "price": "34.99",
+      "stock": 110,
+      "available": true,
+      "created_at": "2025-01-19T10:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+      "name": "Veggie Supreme 15-15-15",
+      "slug": "veggie-supreme-15-15-15",
+      "category": 1,
+      "description": "Specially formulated for vegetable gardens. Balanced nutrition supports healthy growth from seedling to harvest. Works great for tomatoes, peppers, and squash.",
+      "npk_ratio": "15-15-15",
+      "dosage_info": "Apply 2 pounds per 100 square feet at planting. Side-dress with 1 pound per 100 square feet every 4 weeks during growing season.",
+      "price": "28.99",
+      "stock": 140,
+      "available": true,
+      "created_at": "2025-01-20T10:00:00Z"
+    }
+  }
+]

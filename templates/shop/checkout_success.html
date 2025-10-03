@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmed - Smart Blender NPK{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <!-- Success Icon -->
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Order Confirmed!</h1>
+        <p class="text-lg text-gray-600 mb-8">Thank you for your order. We'll send you a confirmation email shortly.</p>
+
+        <!-- Order Details -->
+        <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-600">Order Number</p>
+                    <p class="font-semibold text-gray-800">#{{ order.id }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Order Date</p>
+                    <p class="font-semibold text-gray-800">{{ order.created_at|date:"F d, Y" }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Total Amount</p>
+                    <p class="font-semibold text-agri-green text-xl">${{ order.total_price }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Status</p>
+                    <p class="font-semibold text-yellow-600">{{ order.get_status_display }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping Information -->
+        <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Shipping To:</h2>
+            <div class="text-gray-700">
+                <p class="font-semibold">{{ order.first_name }} {{ order.last_name }}</p>
+                <p>{{ order.address }}</p>
+                <p>{{ order.city }}, {{ order.postal_code }}</p>
+                <p class="mt-2">{{ order.email }}</p>
+                <p>{{ order.phone }}</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'order_detail' order.id %}" class="bg-agri-green text-white px-8 py-3 rounded-lg font-semibold hover:bg-agri-light transition">
+                View Order Details
+            </a>
+            <a href="{% url 'product_list' %}" class="bg-white text-agri-green border-2 border-agri-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

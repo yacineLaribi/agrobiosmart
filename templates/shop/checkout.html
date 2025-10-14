@@ -1,137 +1,213 @@
 {% extends 'base.html' %}
 
-{% block title %}Checkout - Smart Blender NPK{% endblock %}
+{% block title %}Checkout - Agrobiosmart{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h1 class="text-4xl font-bold text-gray-800 mb-8">Checkout</h1>
+<div class="bg-forest-green min-h-screen">
+    <!-- Hero Section -->
+    <section class="relative py-16 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-5 py-2 mb-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
+                <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-gray-300 text-sm font-medium tracking-wider uppercase">Secure Checkout</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 leading-tight">
+                Complete Your Order
+            </h1>
+            <p class="text-gray-400 text-lg">
+                Just one more step to get your agricultural products delivered
+            </p>
+        </div>
+    </section>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Checkout Form -->
-        <div class="lg:col-span-2">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Shipping Information</h2>
-                
-                <form method="post" class="space-y-6">
-                    {% csrf_token %}
+    <!-- Checkout Content -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Checkout Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10">
+                    <h2 class="text-3xl font-bold text-white mb-8">Shipping Information</h2>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="id_first_name" class="block text-gray-700 font-semibold mb-2">First Name</label>
-                            {{ form.first_name }}
-                            {% if form.first_name.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.first_name.errors.0 }}</p>
-                            {% endif %}
-                        </div>
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
                         
-                        <div>
-                            <label for="id_last_name" class="block text-gray-700 font-semibold mb-2">Last Name</label>
-                            {{ form.last_name }}
-                            {% if form.last_name.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.last_name.errors.0 }}</p>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="id_email" class="block text-gray-700 font-semibold mb-2">Email</label>
-                        {{ form.email }}
-                        {% if form.email.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-
-                    <div>
-                        <label for="id_phone" class="block text-gray-700 font-semibold mb-2">Phone</label>
-                        {{ form.phone }}
-                        {% if form.phone.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-
-                    <div>
-                        <label for="id_address" class="block text-gray-700 font-semibold mb-2">Address</label>
-                        {{ form.address }}
-                        {% if form.address.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.address.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="id_city" class="block text-gray-700 font-semibold mb-2">City</label>
-                            {{ form.city }}
-                            {% if form.city.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.city.errors.0 }}</p>
-                            {% endif %}
-                        </div>
-                        
-                        <div>
-                            <label for="id_postal_code" class="block text-gray-700 font-semibold mb-2">Postal Code</label>
-                            {{ form.postal_code }}
-                            {% if form.postal_code.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.postal_code.errors.0 }}</p>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="pt-6 border-t">
-                        <button type="submit" class="w-full bg-agri-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-agri-light transition">
-                            Place Order
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Order Summary -->
-        <div class="lg:col-span-1">
-            <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Order Summary</h2>
-                
-                <div class="space-y-4 mb-6">
-                    {% for item in cart %}
-                    <div class="flex items-center gap-3">
-                        <div class="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
-                            {% if item.product.image %}
-                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
-                            {% else %}
-                            <div class="w-full h-full flex items-center justify-center">
-                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                </svg>
+                        <!-- Name Fields -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="id_first_name" class="block text-white font-semibold mb-3">First Name</label>
+                                <input type="text" name="first_name" id="id_first_name" value="{{ form.first_name.value|default:'' }}" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm" placeholder="Enter first name" required>
+                                {% if form.first_name.errors %}
+                                <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ form.first_name.errors.0 }}
+                                </p>
+                                {% endif %}
                             </div>
+                            
+                            <div>
+                                <label for="id_last_name" class="block text-white font-semibold mb-3">Last Name</label>
+                                <input type="text" name="last_name" id="id_last_name" value="{{ form.last_name.value|default:'' }}" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm" placeholder="Enter last name" required>
+                                {% if form.last_name.errors %}
+                                <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ form.last_name.errors.0 }}
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="id_email" class="block text-white font-semibold mb-3">Email Address</label>
+                            <input type="email" name="email" id="id_email" value="{{ form.email.value|default:'' }}" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm" placeholder="your.email@example.com" required>
+                            {% if form.email.errors %}
+                            <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ form.email.errors.0 }}
+                            </p>
                             {% endif %}
                         </div>
-                        <div class="flex-grow">
-                            <h4 class="font-semibold text-gray-800 text-sm">{{ item.product.name }}</h4>
-                            <p class="text-xs text-gray-600">Qty: {{ item.quantity }}</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-semibold text-gray-800">${{ item.total_price }}</span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
 
-                <div class="border-t pt-4 space-y-2">
-                    <div class="flex justify-between text-gray-700">
-                        <span>Subtotal</span>
-                        <span>${{ cart.get_total_price }}</span>
+                        <!-- Phone -->
+                        <div>
+                            <label for="id_phone" class="block text-white font-semibold mb-3">Phone Number</label>
+                            <input type="tel" name="phone" id="id_phone" value="{{ form.phone.value|default:'' }}" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm" placeholder="+1 (555) 123-4567" required>
+                            {% if form.phone.errors %}
+                            <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ form.phone.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Address -->
+                        <div>
+                            <label for="id_address" class="block text-white font-semibold mb-3">Street Address</label>
+                            <textarea name="address" id="id_address" rows="3" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm resize-none" placeholder="Enter your complete address" required>{{ form.address.value|default:'' }}</textarea>
+                            {% if form.address.errors %}
+                            <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ form.address.errors.0 }}
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <!-- City and Postal Code -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="id_city" class="block text-white font-semibold mb-3">City</label>
+                                <input type="text" name="city" id="id_city" value="{{ form.city.value|default:'' }}" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm" placeholder="City name" required>
+                                {% if form.city.errors %}
+                                <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ form.city.errors.0 }}
+                                </p>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                <label for="id_postal_code" class="block text-white font-semibold mb-3">Postal Code</label>
+                                <input type="text" name="postal_code" id="id_postal_code" value="{{ form.postal_code.value|default:'' }}" class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 transition-all backdrop-blur-sm" placeholder="12345" required>
+                                {% if form.postal_code.errors %}
+                                <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ form.postal_code.errors.0 }}
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-6 border-t border-white/10">
+                            <button type="submit" class="w-full px-8 py-5 bg-white text-gray-900 font-bold rounded-2xl hover:scale-105 transition-transform duration-300 hover:shadow-2xl hover:shadow-black/20 flex items-center justify-center gap-3">
+                                <span>Place Order</span>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                    <h2 class="text-2xl font-bold text-white mb-6">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-6 max-h-96 overflow-y-auto pr-2">
+                        {% for item in cart %}
+                        <div class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                            <div class="w-16 h-16 bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-xl flex-shrink-0 overflow-hidden">
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                {% else %}
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <h4 class="font-semibold text-white text-sm truncate">{{ item.product.name }}</h4>
+                                <p class="text-xs text-gray-400">Qty: {{ item.quantity }}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-bold text-white">${{ item.total_price }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="flex justify-between text-gray-700">
-                        <span>Shipping</span>
-                        <span class="text-green-600">FREE</span>
+
+                    <div class="border-t border-white/10 pt-6 space-y-3">
+                        <div class="flex justify-between text-gray-400">
+                            <span>Subtotal</span>
+                            <span class="text-white font-semibold">${{ cart.get_total_price }}</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400">
+                            <span>Shipping</span>
+                            <span class="text-white font-semibold">FREE</span>
+                        </div>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-semibold text-white">Total</span>
+                                <span class="text-3xl font-bold text-white">${{ cart.get_total_price }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="border-t pt-2 mt-2">
-                        <div class="flex justify-between text-xl font-bold text-gray-800">
-                            <span>Total</span>
-                            <span class="text-agri-green">${{ cart.get_total_price }}</span>
+
+                    <!-- Security Badge -->
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <div class="flex items-center gap-3 text-gray-400 text-sm">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            <span>Secure checkout protected by encryption</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Bottom Spacing -->
+    <div class="h-16"></div>
 </div>
 {% endblock %}

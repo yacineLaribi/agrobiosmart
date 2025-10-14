@@ -99,4 +99,7 @@ class OrderItem(models.Model):
         return f'{self.quantity}x {self.product.name}'
 
     def get_total_price(self):
+        if self.quantity is None or self.price is None:
+            return 0
         return self.quantity * self.price
+

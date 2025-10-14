@@ -67,3 +67,11 @@ def order_detail(request, order_id):
         'order': order,
     }
     return render(request, 'shop/order_detail.html', context)
+
+
+
+def about(request):
+    return render(request,'shop/about.html')
+
+def contact(request):
+    return render(request,'shop/contact.html')

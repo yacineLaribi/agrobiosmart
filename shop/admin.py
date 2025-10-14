@@ -75,7 +75,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_number', 'customer_name', 'email', 'total_price', 'status_badge', 'created_at']
+    list_display = ['order_number','status', 'customer_name', 'email','phone', 'total_price', 'status_badge', 'created_at']
     list_filter = ['status', 'created_at']
     list_editable = ['status']
     search_fields = ['user__username', 'email', 'first_name', 'last_name', 'id']
@@ -144,6 +144,6 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 # Customize admin site header and title
-admin.site.site_header = 'Smart Blender NPK Admin'
-admin.site.site_title = 'Smart Blender NPK'
+admin.site.site_header = 'AgroBioSmart'
+admin.site.site_title = 'AgroBioSmart'
 admin.site.index_title = 'Dashboard'

@@ -1,104 +1,103 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Smart Blender NPK - Agricultural Fertilizers{% endblock %}</title>
+    <title>{% block title %}Agrobiosmart - Agricultural Excellence{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'agri-green': '#2d5016',
-                        'agri-light': '#4a7c2c',
-                        'agri-accent': '#7cb342',
+                        'forest-green': '#102308',
+                        'dark-green': '#37761D',
+                        'agri-green': '#37761D',
+                        'agri-light': '#4a9625',
+                        'agri-accent': '#5cb730',
                     }
                 }
             }
         }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/x-icon">
+    {% block extra_css %}{% endblock %}
 </head>
-<body class="flex flex-col min-h-screen bg-gray-50">
+<body class="bg-forest-green">
     <!-- Navigation -->
-    <nav class="bg-agri-green text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-8">
-                    <a href="{% url 'home' %}" class="text-xl font-bold">Smart Blender NPK</a>
-                    <div class="hidden md:flex gap-6">
-                        <a href="{% url 'home' %}" class="hover:text-agri-accent transition">Home</a>
-                        <a href="{% url 'product_list' %}" class="hover:text-agri-accent transition">Products</a>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <a href="{% url 'cart_detail' %}" class="relative hover:text-agri-accent transition">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        {% if cart_count > 0 %}
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cart_count }}</span>
-                        {% endif %}
-                    </a>
-                    {% if user.is_authenticated %}
-                        <div class="relative group">
-                            <button class="hover:text-agri-accent transition">{{ user.username }}</button>
-                            <div class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg py-2 z-10">
-                                <a href="{% url 'order_history' %}" class="block px-4 py-2 hover:bg-gray-100">My Orders</a>
-                                <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="hover:text-agri-accent transition">Login</a>
-                        <a href="{% url 'register' %}" class="bg-agri-accent hover:bg-agri-light px-4 py-2 rounded-lg transition">Register</a>
-                    {% endif %}
-                </div>
+    <nav class="bg-forest-green text-white py-4 px-6">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="{% url 'product_list' %}" class="hover:text-gray-300 transition-colors">Products</a>
+                <a href="{% url 'about' %}" class="hover:text-gray-300 transition-colors">About</a>
+
+                <a href="{% url 'contact' %}" class="hover:text-gray-300 transition-colors">Support</a>
+
+            </div>
+            
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <a href="/">
+                    <img src="{% static 'logo.png' %}" alt="Agrobiosmart Logo" class="mt-5 h-72 w-auto drop-shadow-lg brightness-0 invert hover:opacity-80 transition-opacity" style="filter: brightness(0) invert(1);" />
+                </a>
+            </div>
+            <div class="flex">
+                <button class="bg-green-700 hover:bg-green-600 px-6 py-2 rounded-lg font-medium transition-colors">
+                    Menu
+                </button>
+                <a href="{% url 'cart_detail' %}" class="ml-4 flex items-center bg-agri-accent hover:bg-agri-light px-5 py-2 rounded-lg font-medium transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007.6 17h8.8a1 1 0 00.95-.7L21 9M7 13V6h13"/>
+                    </svg>
+                    Cart
+                </a>
+
             </div>
         </div>
     </nav>
 
-    <!-- Messages -->
-    {% if messages %}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-        {% for message in messages %}
-        <div class="bg-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-100 border border-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-400 text-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-700 px-4 py-3 rounded mb-4">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
     <!-- Main Content -->
-    <main class="flex-grow">
-        {% block content %}{% endblock %}
+    <main>
+        {% block content %}
+        {% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-agri-green text-white mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Smart Blender NPK</h3>
-                    <p class="text-gray-300">Premium agricultural fertilizers and NPK blends for optimal crop growth.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{% url 'home' %}" class="text-gray-300 hover:text-white">Home</a></li>
-                        <li><a href="{% url 'product_list' %}" class="text-gray-300 hover:text-white">Products</a></li>
-                        <li><a href="{% url 'cart_detail' %}" class="text-gray-300 hover:text-white">Cart</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Contact Us</h3>
-                    <p class="text-gray-300">Email: info@smartblendernpk.com</p>
-                    <p class="text-gray-300">Phone: +1 (555) 123-4567</p>
-                </div>
+    <footer class="py-16 px-4 bg-forest-green">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-center mb-12">
+                <a href="/">
+                    <img src="{% static 'logo.png' %}" alt="Agrobiosmart Logo" class="mt-5 h-72 w-auto drop-shadow-lg brightness-0 invert hover:opacity-80 transition-opacity" style="filter: brightness(0) invert(1);" />
+                </a>
             </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                <p>&copy; 2025 Smart Blender NPK. All rights reserved.</p>
+
+            <nav class="flex justify-center gap-8 mb-12 flex-wrap">
+                <a href="#" class="text-white hover:text-gray-300 transition-colors">About us</a>
+                <a href="#" class="text-white hover:text-gray-300 transition-colors">Services</a>
+                <a href="{% url 'product_list' %}" class="text-white hover:text-gray-300 transition-colors">Products</a>
+                <a href="#" class="text-white hover:text-gray-300 transition-colors">Support</a>
+                <a href="#" class="text-white hover:text-gray-300 transition-colors">Contact</a>
+            </nav>
+
+            <div class="border-t border-gray-600 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+                    <p>© 2025 Agrobiosmart. All rights reserved.</p>
+                    <div class="flex gap-6 flex-wrap justify-center">
+                        <a href="#" class="hover:text-white transition-colors">Privacy policy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms of service</a>
+                        <a href="#" class="hover:text-white transition-colors">Cookies settings</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

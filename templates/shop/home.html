@@ -1,106 +1,472 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-<!-- Hero Section -->
-<div class="bg-gradient-to-r from-agri-green to-agri-light text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div class="text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">Premium Agricultural Fertilizers</h1>
-            <p class="text-xl md:text-2xl mb-8 text-gray-100">Scientifically formulated NPK blends for optimal crop growth</p>
-            <a href="{% url 'product_list' %}" class="inline-block bg-white text-agri-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-                Shop Now
-            </a>
-        </div>
-    </div>
-</div>
 
-<!-- Categories Section -->
-{% if categories %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8">Shop by Category</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {% for category in categories %}
-        <a href="{% url 'product_list' %}?category={{ category.slug }}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
-            <h3 class="text-xl font-semibold text-agri-green mb-2">{{ category.name }}</h3>
-            <p class="text-gray-600">{{ category.description|truncatewords:10 }}</p>
-        </a>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}
 
-<!-- Featured Products -->
-<div class="bg-gray-100 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8">Featured Products</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for product in featured_products %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                <div class="h-48 bg-gray-200 flex items-center justify-center">
-                    {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
-                    {% else %}
-                    <svg class="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                    </svg>
-                    {% endif %}
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative rounded-2xl overflow-hidden">
+                <!-- Background images slider -->
+                <div id="bg-slider" class="absolute inset-0 w-full h-full transition-opacity duration-1000">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3xsQm1I-xZq7dsvFXE-KWwfcJoGmtH3qUow&s" class="absolute inset-0 w-full h-full object-cover opacity-100 slider-img" style="transition: opacity 1s;" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMyTRFipchun_tUM76pjnCGJ19q7wt_BDXAg&s" class="absolute inset-0 w-full h-full object-cover opacity-0 slider-img" style="transition: opacity 1s;" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS59AksZBbspDbHVpqmRrxS-S1PXguPVrOgyw&s" class="absolute inset-0 w-full h-full object-cover opacity-0 slider-img" style="transition: opacity 1s;" />
                 </div>
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-500">{{ product.category.name }}</span>
-                        <span class="bg-agri-accent text-white text-xs px-2 py-1 rounded">{{ product.npk_ratio }}</span>
+                <div class="relative bg-gray-900/50 bg-opacity-80 rounded-2xl p-12 md:p-20 text-center z-10">
+                    <h1 class="text-4xl md:text-6xl  text-white mb-6 leading-tight w-full">
+                        Agricultural excellence<br>through smart biosolutions
+                    </h1>
+                    <p class="text-white text-md md:text-lg mb-8 max-w-3xl mx-auto leading-relaxed">
+                        Agrobiosmart delivers premium agricultural products with uncompromising quality.<br>
+                        We transform farming through innovative solutions and sustainable practices.
+                    </p>
+                    <div class="flex gap-4 justify-center">
+                        <button class="bg-green-600/70 text-gray-200 px-8 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
+                            Explore
+                        </button>
+                        <button class="bg-gray-500/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600/50 transition-colors">
+                            Learn
+                        </button>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ product.name }}</h3>
-                    <p class="text-gray-600 mb-4">{{ product.description|truncatewords:15 }}</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold text-agri-green">${{ product.price }}</span>
-                        <a href="{% url 'product_detail' product.slug %}" class="bg-agri-green text-white px-4 py-2 rounded-lg hover:bg-agri-light transition">
-                            View Details
+                </div>
+            </div>
+            <script>
+                // Simple slider for background images
+                const images = document.querySelectorAll('#bg-slider .slider-img');
+                let current = 0;
+                setInterval(() => {
+                    images[current].style.opacity = 0;
+                    current = (current + 1) % images.length;
+                    images[current].style.opacity = 1;
+                }, 5000);
+            </script>
+        </div>
+    </section>
+
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
+    </div>
+
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Our agricultural product<br>range
+                </h2>
+                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                    We provide diverse agricultural solutions for modern farmers. Our products are<br>
+                    carefully selected to enhance crop performance and sustainability.
+                </p>
+                <div class="flex gap-2 justify-center mt-8">
+                    <a href="#" class="text-white hover:text-gray-300 flex items-center gap-1">
+                        View Details
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex gap-8 justify-center mb-12 border-b border-gray-600">
+                <button class="text-white pb-3 border-b-2 border-white font-medium">Crop seeds</button>
+                <button class="text-gray-400 pb-3 hover:text-white font-medium">Organic fertilizers</button>
+                <button class="text-gray-400 pb-3 hover:text-white font-medium">Farming tools</button>
+            </div>
+
+            <div class="bg-[#162F0B] rounded-2xl grid md:grid-cols-2 gap-8 items-center">
+                <div class="rounded-2xl aspect-square flex items-center justify-center">
+                    <img src="{% static 'product1.png' %}" alt="Product 1" class="w-auto h-[650px] object-contain" />
+                </div>
+                <div class="text-white">
+                    <p class="text-sm uppercase tracking-wide mb-3">Innovation</p>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+                        Premium crop seeds<br>for optimal growth
+                    </h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        High-quality seeds selected for resilience and productivity.<br>
+                        Engineered to thrive in challenging agricultural environments.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-white hover:text-gray-300 flex items-center gap-1">
+                            Explore
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-white hover:text-gray-300 flex items-center gap-1">
+                            Learn
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-        <div class="text-center mt-8">
-            <a href="{% url 'product_list' %}" class="inline-block bg-agri-green text-white px-8 py-3 rounded-lg font-semibold hover:bg-agri-light transition">
-                View All Products
-            </a>
-        </div>
-    </div>
-</div>
+    </section>
 
-<!-- Benefits Section -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Why Choose Smart Blender NPK?</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="text-center">
-            <div class="bg-agri-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Quality Guaranteed</h3>
-            <p class="text-gray-600">Premium grade fertilizers tested for optimal results</p>
-        </div>
-        <div class="text-center">
-            <div class="bg-agri-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Fast Delivery</h3>
-            <p class="text-gray-600">Quick shipping to get your crops growing faster</p>
-        </div>
-        <div class="text-center">
-            <div class="bg-agri-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                </svg>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Expert Support</h3>
-            <p class="text-gray-600">Agricultural experts ready to help you succeed</p>
-        </div>
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
     </div>
-</div>
-{% endblock %}
+
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-white text-sm uppercase tracking-wide mb-3">Values</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Our commitment to<br>agricultural excellence
+                </h2>
+                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                    Agrobiosmart stands for uncompromising quality and sustainable agricultural<br>solutions.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-[#162F0B] rounded-2xl p-8">
+                    <div class="bg-gray-400 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-gray-200" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-300 mb-4">Better quality</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        We select only the finest agricultural products to ensure superior performance.
+                    </p>
+                </div>
+
+                <div class="bg-[#162F0B] rounded-2xl p-8">
+                    <div class="bg-gray-400 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-gray-200" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-300 mb-4">Authenticity</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Every product reflects our commitment to genuine, transparent agricultural practices.
+                    </p>
+                </div>
+
+                <div class="bg-[#162F0B] rounded-2xl p-8">
+                    <div class="bg-gray-400 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-gray-200" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-300 mb-4">Customer care</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Our dedicated team supports farmers with expert guidance and personalized solutions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <div class="flex gap-2 justify-center">
+                    <a href="#" class="text-white hover:text-gray-300 flex items-center gap-1">
+                        Learn More
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
+    </div>
+
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-white text-sm uppercase tracking-wide mb-3">Services</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Agricultural solutions
+                </h2>
+                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                    Comprehensive agricultural services designed to support farmers at every stage of<br>production.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-400 rounded-2xl p-12 min-h-[400px] flex flex-col justify-between">
+                    <div class="flex items-center justify-center mb-8">
+                        <svg class="w-24 h-24 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-white text-sm uppercase tracking-wide mb-3">Expertise</p>
+                        <h3 class="text-3xl font-bold text-white mb-4">
+                            Crop consultation<br>and management
+                        </h3>
+                        <p class="text-white mb-6 leading-relaxed">
+                            Professional guidance to optimize crop selection, growth, and harvest strategies.
+                        </p>
+                        <a href="#" class="text-white hover:text-gray-200 flex items-center gap-1">
+                            Consult
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-400 rounded-2xl p-12 min-h-[400px] flex flex-col justify-between">
+                    <div class="flex items-center justify-center mb-8">
+                        <svg class="w-24 h-24 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-white text-sm uppercase tracking-wide mb-3">Technology</p>
+                        <h3 class="text-3xl font-bold text-white mb-4">
+                            Precision agriculture<br>support
+                        </h3>
+                        <p class="text-white mb-6 leading-relaxed">
+                            Advanced technological solutions to enhance farming efficiency and sustainability.
+                        </p>
+                        <a href="#" class="text-white hover:text-gray-200 flex items-center gap-1">
+                            Explore
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
+    </div>
+
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-white text-sm uppercase tracking-wide mb-3">Benefits</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Why choose<br>Agrobiosmart for your<br>agricultural needs
+                </h2>
+                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                    We deliver innovative solutions that transform agricultural productivity and<br>sustainability.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12 items-center">
+                <div class="space-y-12">
+                    <div class="text-white">
+                        <div class="flex items-start gap-4 mb-4">
+                            <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Proven performance</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            Agricultural products tested and validated for maximum crop yield and resilience.
+                        </p>
+                    </div>
+
+                    <div class="text-white">
+                        <div class="flex items-start gap-4 mb-4">
+                            <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Sustainable practices</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            Environmentally conscious solutions that support long-term agricultural ecosystem health.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-400 rounded-2xl aspect-square flex items-center justify-center">
+                    <svg class="w-32 h-32 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <div class="space-y-12">
+                    <div class="text-white">
+                        <div class="flex items-start gap-4 mb-4">
+                            <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Expert support</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            Continuous guidance and technical assistance throughout your agricultural journey.
+                        </p>
+                    </div>
+
+                    <div class="text-white">
+                        <div class="flex items-start gap-4 mb-4">
+                            <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Innovation</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            Cutting-edge technologies and research-driven agricultural solutions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
+    </div>
+
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-4">
+                <div class="flex gap-2 justify-center mb-8">
+                    <a href="#" class="text-white hover:text-gray-300">Discover</a>
+                    <a href="#" class="text-white hover:text-gray-300 flex items-center gap-1">
+                        More
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-center mb-12">
+                <div class="w-16 h-1 bg-white rounded"></div>
+            </div>
+
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Farmer stories</h2>
+                <p class="text-white text-lg">Real experiences from farmers who trust Agrobiosmart</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-dark-green rounded-2xl p-8">
+                    <div class="flex gap-1 mb-6">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                    <p class="text-white mb-8 leading-relaxed">
+                        "These seeds transformed my crop yield beyond expectations."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                        <div>
+                            <p class="text-white font-semibold">John Miller</p>
+                            <p class="text-gray-400 text-sm">Crop manager, Green Valley Farms</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-green rounded-2xl p-8">
+                    <div class="flex gap-1 mb-6">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                    <p class="text-white mb-8 leading-relaxed">
+                        "Incredible support and innovative agricultural solutions."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                        <div>
+                            <p class="text-white font-semibold">Sarah Thompson</p>
+                            <p class="text-gray-400 text-sm">Agricultural consultant, Sustainable Harvest</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-green rounded-2xl p-8">
+                    <div class="flex gap-1 mb-6">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                    <p class="text-white mb-8 leading-relaxed">
+                        "A game-changer for modern sustainable farming."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                        <div>
+                            <p class="text-white font-semibold">Michael Rodriguez</p>
+                            <p class="text-gray-400 text-sm">Owner, Rodriguez Agricultural Systems</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
+    </div>
+
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-gray-400 rounded-2xl p-12 md:p-20 text-center">
+                <div class="flex justify-center mb-8">
+                    <div class="w-16 h-1 bg-white rounded"></div>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                    Ready to transform your<br>agricultural approach
+                </h2>
+                <p class="text-white text-lg mb-8 max-w-3xl mx-auto">
+                    Connect with our experts and discover innovative solutions for your farming needs.
+                </p>
+                <div class="flex gap-4 justify-center">
+                    <button class="bg-white text-gray-800 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        Contact
+                    </button>
+                    <button class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                        Learn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex justify-center py-8">
+        <div class="w-16 h-1 bg-white rounded"></div>
+    </div>
+
+{% endblock content %}

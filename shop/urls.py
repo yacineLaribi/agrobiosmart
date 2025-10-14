@@ -9,6 +9,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('products/', views.product_list, name='product_list'),
     path('product/<slug:slug>/', views.product_detail, name='product_detail'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+
     
     # Cart
     path('cart/', cart_views.cart_detail, name='cart_detail'),
@@ -27,4 +30,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='shop/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', checkout_views.register, name='register'),
+
+
+
 ]

@@ -21,6 +21,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,7 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media files (User uploads)
@@ -140,3 +141,12 @@ LOGOUT_REDIRECT_URL = 'home'
 # Session settings for cart
 SESSION_COOKIE_AGE = 86400 * 7  # 7 days
 CART_SESSION_ID = 'cart'
+
+
+#Jazmin styling 
+JAZZMIN_SETTINGS = {
+    "site_title": "AgroBioSmart",
+    "site_header": "AgroBiosmart",
+    "welcome_sign": "Welcome back 👋",
+    "show_ui_builder": True,
+}

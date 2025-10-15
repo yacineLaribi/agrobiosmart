@@ -23,18 +23,101 @@
         </div>
     </section>
 
+    <!-- Search and Filter Bar -->
+    <section class="relative py-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12">
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <!-- Search Input -->
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Search products by name or description..." 
+                            class="w-full px-6 py-4 pl-14 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-all duration-300"
+                        >
+                        <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="relative">
+                        <select 
+                            id="sortSelect"
+                            class="appearance-none px-6 py-4 pr-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl text-white focus:outline-none focus:border-white/30 transition-all duration-300 cursor-pointer"
+                        >
+                            <option value="">Sort by: Default</option>
+                            <option value="name_asc">Name (A-Z)</option>
+                            <option value="name_desc">Name (Z-A)</option>
+                            <option value="price_asc">Price (Low to High)</option>
+                            <option value="price_desc">Price (High to Low)</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+
+                    <!-- Stock Filter -->
+                    <div class="relative">
+                        <select 
+                            id="stockFilter"
+                            class="appearance-none px-6 py-4 pr-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl text-white focus:outline-none focus:border-white/30 transition-all duration-300 cursor-pointer"
+                        >
+                            <option value="">All Stock</option>
+                            <option value="in_stock">In Stock Only</option>
+                            <option value="out_of_stock">Out of Stock</option>
+                        </select>
+                        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+
+                    <!-- Clear Button -->
+                    <button 
+                        id="clearFilters"
+                        class="px-8 py-4 bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 rounded-2xl text-white font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                    >
+                        <span>Clear</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Active Filters Display -->
+                <div id="activeFilters" class="flex flex-wrap items-center gap-3 mt-6 hidden">
+                    <span class="text-gray-400 text-sm font-medium">Active Filters:</span>
+                    <div id="filterChips" class="flex flex-wrap gap-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Category Filter -->
     <section class="relative py-8 px-4">
         <div class="max-w-7xl mx-auto">
-            <div class="flex gap-3 justify-center mb-16 flex-wrap">
-                <a href="{% url 'product_list' %}" class="{% if not selected_category %}bg-white/10 text-white border-white/20{% else %}bg-white/5 text-gray-400 hover:bg-white/10 border-white/10{% endif %} px-8 py-3.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border backdrop-blur-sm">
+            <div class="flex gap-3 justify-center mb-16 flex-wrap" id="categoryButtons">
+                <button data-category="" class="category-btn active bg-white/10 text-white border-white/20 px-8 py-3.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border backdrop-blur-sm">
                     All Products
-                </a>
+                </button>
                 {% for category in categories %}
-                <a href="{% url 'product_list' %}?category={{ category.slug }}" class="{% if selected_category == category.slug %}bg-white/10 text-white border-white/20{% else %}bg-white/5 text-gray-400 hover:bg-white/10 border-white/10{% endif %} px-8 py-3.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border backdrop-blur-sm">
+                <button data-category="{{ category.slug }}" class="category-btn bg-white/5 text-gray-400 hover:bg-white/10 border-white/10 px-8 py-3.5 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border backdrop-blur-sm">
                     {{ category.name }}
-                </a>
+                </button>
                 {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Count -->
+    <section class="relative px-4 pb-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between">
+                <p class="text-gray-400 text-sm">
+                    Showing <span id="resultsCount" class="text-white font-semibold">0</span> product<span id="pluralS">s</span>
+                </p>
             </div>
         </div>
     </section>
@@ -42,10 +125,15 @@
     <!-- Products Grid -->
     <section class="relative py-8 px-4 pb-24">
         <div class="max-w-7xl mx-auto">
-            {% if products %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for product in products %}
-                <div class="group relative">
+                <div class="product-card group relative" 
+                     data-name="{{ product.name|lower }}" 
+                     data-description="{{ product.description|lower }}"
+                     data-category="{{ product.category.slug }}"
+                     data-stock="{{ product.in_stock|yesno:'in_stock,out_of_stock' }}"
+                     data-price="{{ product.price|default:'0' }}"
+                     data-created="{{ product.created_at|date:'U'|default:'0' }}">
                     <!-- Card -->
                     <div class="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-white/20 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-2">
                         
@@ -102,18 +190,6 @@
                                 {{ product.description|truncatewords:18 }}
                             </p>
                             
-                            {% comment %} <!-- Price Section -->
-                            <div class="flex items-end justify-between mb-6 pb-6 border-b border-white/10">
-                                <div>
-                                    <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Starting at</p>
-                                    <div class="flex items-baseline gap-2">
-                                        <span class="text-4xl font-bold text-white">
-                                            ${{ product.price }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div> {% endcomment %}
-                            
                             <!-- CTA Button -->
                             <a href="{% url 'product_detail' product.slug %}" class="group/btn relative block w-full overflow-hidden rounded-2xl bg-white/10 hover:bg-white/15 transition-all duration-300 border border-white/20">
                                 <div class="relative flex items-center justify-center gap-3 px-6 py-4">
@@ -128,26 +204,25 @@
                 </div>
                 {% endfor %}
             </div>
-            {% else %}
+
             <!-- Empty State -->
-            <div class="text-center py-32">
+            <div id="emptyState" class="text-center py-32 hidden">
                 <div class="max-w-2xl mx-auto">
                     <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[3rem] p-16">
                         <svg class="w-24 h-24 text-gray-600 mx-auto mb-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                         </svg>
-                        <h3 class="text-3xl font-bold text-white mb-4">No Products Available</h3>
-                        <p class="text-gray-400 text-lg mb-10 max-w-md mx-auto">This category is currently being restocked with innovative solutions.</p>
-                        <a href="{% url 'product_list' %}" class="inline-flex items-center gap-3 px-10 py-5 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold rounded-2xl transition-all duration-300 hover:scale-105">
-                            <span>Browse All Products</span>
+                        <h3 class="text-3xl font-bold text-white mb-4">No Products Found</h3>
+                        <p class="text-gray-400 text-lg mb-10 max-w-md mx-auto">We couldn't find any products matching your criteria. Try adjusting your filters.</p>
+                        <button id="clearFromEmpty" class="inline-flex items-center gap-3 px-10 py-5 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold rounded-2xl transition-all duration-300 hover:scale-105">
+                            <span>Clear Filters</span>
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
-            {% endif %}
         </div>
     </section>
 
@@ -200,5 +275,273 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+select {
+    background-image: none;
+}
+
+select option {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.product-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.product-card.hidden {
+    display: none;
+}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const stockFilter = document.getElementById('stockFilter');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    const clearFromEmptyBtn = document.getElementById('clearFromEmpty');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const productsGrid = document.getElementById('productsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const resultsCount = document.getElementById('resultsCount');
+    const pluralS = document.getElementById('pluralS');
+    const activeFiltersDiv = document.getElementById('activeFilters');
+    const filterChips = document.getElementById('filterChips');
+    
+    let currentFilters = {
+        search: '',
+        category: '',
+        stock: '',
+        sort: ''
+    };
+    
+    // Get all product cards
+    const productCards = Array.from(document.querySelectorAll('.product-card'));
+    
+    // Filter and sort products
+    function filterProducts() {
+        let filteredProducts = productCards.filter(card => {
+            const name = card.dataset.name;
+            const description = card.dataset.description;
+            const category = card.dataset.category;
+            const stock = card.dataset.stock;
+            
+            // Search filter
+            if (currentFilters.search) {
+                const searchTerm = currentFilters.search.toLowerCase();
+                if (!name.includes(searchTerm) && !description.includes(searchTerm)) {
+                    return false;
+                }
+            }
+            
+            // Category filter
+            if (currentFilters.category && category !== currentFilters.category) {
+                return false;
+            }
+            
+            // Stock filter
+            if (currentFilters.stock) {
+                if (currentFilters.stock === 'in_stock' && stock !== 'in_stock') {
+                    return false;
+                }
+                if (currentFilters.stock === 'out_of_stock' && stock !== 'out_of_stock') {
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+        
+        // Sort products
+        if (currentFilters.sort) {
+            filteredProducts.sort((a, b) => {
+                switch (currentFilters.sort) {
+                    case 'name_asc':
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    case 'name_desc':
+                        return b.dataset.name.localeCompare(a.dataset.name);
+                    case 'price_asc':
+                        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                    case 'price_desc':
+                        return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                    case 'newest':
+                        return parseInt(b.dataset.created) - parseInt(a.dataset.created);
+                    default:
+                        return 0;
+                }
+            });
+        }
+        
+        // Hide all cards first
+        productCards.forEach(card => card.classList.add('hidden'));
+        
+        // Show filtered and sorted cards
+        if (filteredProducts.length > 0) {
+            filteredProducts.forEach(card => {
+                card.classList.remove('hidden');
+            });
+            productsGrid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+        } else {
+            productsGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+        }
+        
+        // Update results count
+        resultsCount.textContent = filteredProducts.length;
+        pluralS.textContent = filteredProducts.length === 1 ? '' : 's';
+        
+        // Re-append cards in sorted order
+        filteredProducts.forEach(card => {
+            productsGrid.appendChild(card);
+        });
+        
+        // Update active filters display
+        updateActiveFilters();
+    }
+    
+    // Update active filters chips
+    function updateActiveFilters() {
+        filterChips.innerHTML = '';
+        let hasFilters = false;
+        
+        if (currentFilters.search) {
+            hasFilters = true;
+            filterChips.innerHTML += `
+                <button class="filter-chip flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-sm hover:bg-white/15 transition-all duration-300" data-filter="search">
+                    <span>Search: "${currentFilters.search}"</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            `;
+        }
+        
+        if (currentFilters.category) {
+            hasFilters = true;
+            const categoryName = document.querySelector(`[data-category="${currentFilters.category}"]`).textContent.trim();
+            filterChips.innerHTML += `
+                <button class="filter-chip flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-sm hover:bg-white/15 transition-all duration-300" data-filter="category">
+                    <span>Category: ${categoryName}</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            `;
+        }
+        
+        if (currentFilters.stock) {
+            hasFilters = true;
+            const stockText = currentFilters.stock === 'in_stock' ? 'In Stock' : 'Out of Stock';
+            filterChips.innerHTML += `
+                <button class="filter-chip flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-sm hover:bg-white/15 transition-all duration-300" data-filter="stock">
+                    <span>Stock: ${stockText}</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            `;
+        }
+        
+        if (hasFilters) {
+            activeFiltersDiv.classList.remove('hidden');
+            
+            // Add click handlers to filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const filterType = this.dataset.filter;
+                    removeFilter(filterType);
+                });
+            });
+        } else {
+            activeFiltersDiv.classList.add('hidden');
+        }
+    }
+    
+    // Remove specific filter
+    function removeFilter(filterType) {
+        switch (filterType) {
+            case 'search':
+                currentFilters.search = '';
+                searchInput.value = '';
+                break;
+            case 'category':
+                currentFilters.category = '';
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-white/10', 'text-white', 'border-white/20');
+                    btn.classList.add('bg-white/5', 'text-gray-400', 'border-white/10');
+                });
+                categoryButtons[0].classList.add('active', 'bg-white/10', 'text-white', 'border-white/20');
+                categoryButtons[0].classList.remove('bg-white/5', 'text-gray-400', 'border-white/10');
+                break;
+            case 'stock':
+                currentFilters.stock = '';
+                stockFilter.value = '';
+                break;
+        }
+        filterProducts();
+    }
+    
+    // Clear all filters
+    function clearAllFilters() {
+        currentFilters = {
+            search: '',
+            category: '',
+            stock: '',
+            sort: ''
+        };
+        
+        searchInput.value = '';
+        sortSelect.value = '';
+        stockFilter.value = '';
+        
+        categoryButtons.forEach(btn => {
+            btn.classList.remove('active', 'bg-white/10', 'text-white', 'border-white/20');
+            btn.classList.add('bg-white/5', 'text-gray-400', 'border-white/10');
+        });
+        categoryButtons[0].classList.add('active', 'bg-white/10', 'text-white', 'border-white/20');
+        categoryButtons[0].classList.remove('bg-white/5', 'text-gray-400', 'border-white/10');
+        
+        filterProducts();
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', function() {
+        currentFilters.search = this.value;
+        filterProducts();
+    });
+    
+    sortSelect.addEventListener('change', function() {
+        currentFilters.sort = this.value;
+        filterProducts();
+    });
+    
+    stockFilter.addEventListener('change', function() {
+        currentFilters.stock = this.value;
+        filterProducts();
+    });
+    
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            categoryButtons.forEach(b => {
+                b.classList.remove('active', 'bg-white/10', 'text-white', 'border-white/20');
+                b.classList.add('bg-white/5', 'text-gray-400', 'border-white/10');
+            });
+            
+            this.classList.add('active', 'bg-white/10', 'text-white', 'border-white/20');
+            this.classList.remove('bg-white/5', 'text-gray-400', 'border-white/10');
+            
+            currentFilters.category = this.dataset.category;
+            filterProducts();
+        });
+    });
+    
+    clearFiltersBtn.addEventListener('click', clearAllFilters);
+    clearFromEmptyBtn.addEventListener('click', clearAllFilters);
+    
+    // Initial filter
+    filterProducts();
+});
+</script>
 {% endblock %}

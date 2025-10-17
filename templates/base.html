@@ -31,34 +31,65 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-forest-green">
-    <!-- Navigation -->
-    <nav class="bg-forest-green text-white py-4 px-6">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-8">
-                <a href="{% url 'product_list' %}" class="hover:text-gray-300 transition-colors">Products</a>
-                <a href="{% url 'about' %}" class="hover:text-gray-300 transition-colors">About</a>
-
-                <a href="{% url 'contact' %}" class="hover:text-gray-300 transition-colors">Support</a>
-
-            </div>
-            
-            <div class="absolute left-1/2 transform -translate-x-1/2">
-                <a href="/">
-                    <img src="{% static 'logo.png' %}" alt="Agrobiosmart Logo" class="mt-5 h-72 w-auto drop-shadow-lg brightness-0 invert hover:opacity-80 transition-opacity" style="filter: brightness(0) invert(1);" />
-                </a>
-            </div>
-            <div class="flex">
-                <a href="{% url 'cart_detail' %}" class="ml-4 flex items-center bg-agri-accent hover:bg-agri-light px-5 py-2 rounded-lg font-medium transition-colors">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007.6 17h8.8a1 1 0 00.95-.7L21 9M7 13V6h13"/>
-                    </svg>
-                    Cart
-                </a>
-
-            </div>
+<!-- Navigation -->
+<nav class="bg-forest-green text-white py-4 px-6">
+    <div class="max-w-7xl mx-auto flex items-center justify-between relative">
+        <!-- Left Nav (Hidden on mobile) -->
+        <div class="hidden md:flex items-center gap-8">
+            <a href="{% url 'product_list' %}" class="hover:text-gray-300 transition-colors">Products</a>
+            <a href="{% url 'about' %}" class="hover:text-gray-300 transition-colors">About</a>
+            <a href="{% url 'contact' %}" class="hover:text-gray-300 transition-colors">Support</a>
         </div>
-    </nav>
+        
+        <!-- Logo (Left on mobile, Center on desktop) -->
+        <div class="md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+            <a href="/">
+                <img src="{% static 'Logo.png' %}" alt="Agrobiosmart Logo" class="mt-2 md:h-14 w-auto drop-shadow-lg brightness-0 invert hover:opacity-80 transition-opacity" style="filter: brightness(0) invert(1);" />
+            </a>
+        </div>
 
+        <!-- Right Side (Cart + Hamburger) -->
+        <div class="flex items-center gap-4 md:gap-0">
+            <!-- Cart -->
+            <a href="{% url 'cart_detail' %}" class="flex items-center bg-agri-accent hover:bg-agri-light px-5 py-2 rounded-lg font-medium transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007.6 17h8.8a1 1 0 00.95-.7L21 9M7 13V6h13"/>
+                </svg>
+                Cart
+            </a>
+
+            <!-- Hamburger Menu Button (Mobile only) -->
+            <button class="md:hidden p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-colors" id="menuBtn" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div class="hidden md:hidden mt-4 pb-4 border-t border-white border-opacity-20" id="mobileMenu">
+        <a href="{% url 'product_list' %}" class="block py-2 hover:text-gray-300 transition-colors">Products</a>
+        <a href="{% url 'about' %}" class="block py-2 hover:text-gray-300 transition-colors">About</a>
+        <a href="{% url 'contact' %}" class="block py-2 hover:text-gray-300 transition-colors">Support</a>
+    </div>
+</nav>
+
+<script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close menu when a link is clicked
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+</script>
     <!-- Main Content -->
     <main>
         {% block content %}

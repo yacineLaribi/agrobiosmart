@@ -125,7 +125,7 @@
                 <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-white/20 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-2">
                     <div class="h-56 bg-gradient-to-br from-gray-800/30 to-gray-900/30 overflow-hidden">
                         {% if related.image %}
-                        <img src="{{ related.image.url }}" alt="{{ related.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ related.image.url }}" alt="{{ related.name }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700">
                         {% else %}
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-20 h-20 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

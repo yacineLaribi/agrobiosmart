@@ -1,28 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <style>
+        /* Fade in from bottom */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Fade in from sides */
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Scale fade in */
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger delay for children */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+    </style>
+
     <!-- HERO SECTION -->
     <section class="py-16">
-        <div class="h-[50vh] flex flex-col items-center justify-center  max-w-7xl mx-auto">
+        <div class="px-2 md:px-auto h-[50vh] flex flex-col items-center justify-center max-w-7xl mx-auto">
             <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-7xl font-bold text-white mb-6">
+                <h1 class="fade-in-up text-4xl md:text-7xl font-bold text-white mb-6">
                     Biosolutions & Expert Guidance
                 </h1>
-                <p class="text-white text-sm md:text-lg max-w-3xl mx-auto leading-relaxed mb-8">
+                <p class="fade-in-up stagger-1 text-white text-sm md:text-lg max-w-3xl mx-auto leading-relaxed mb-8">
                     Agrobiosmart delivers premium agricultural products with uncompromising quality. We transform farming through innovative solutions and sustainable practices.
                 </p>
-                    <div class="flex gap-4 justify-center">
-                        <a class="bg-agri-accent hover:bg-agri-light text-white px-8 py-3 rounded-lg font-semibold transition-colors" href="{% url "product_list" %}">
-                            Explore
-                        </a>
-                        <button class="bg-gray-500/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600/50 transition-colors">
-                            Learn More
-                        </button>
-                    </div>
+                <div class="fade-in-up stagger-2 flex gap-4 justify-center">
+                    <a class="bg-agri-accent hover:bg-agri-light text-white px-8 py-3 rounded-lg font-semibold transition-colors" href="{% url "product_list" %}">
+                        Explore
+                    </a>
+                    <button class="bg-gray-500/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600/50 transition-colors">
+                        Learn More
+                    </button>
+                </div>
             </div>
         </div>
-        <div id="hero-container" class="relative mt-8">
-
+        <div id="hero-container" class="relative mt-8 fade-in-up stagger-3">
             <!-- Slider and Background Image Section -->
             <div class="relative">
                 <!-- Background Image -->
@@ -48,18 +102,17 @@
                                 <img src="{% static 'product3.png' %}" alt="Product 3" class="h-28 md:h-[650px] object-contain"/>
                             </div>
 
-
-                            <!-- Slide 3 -->
+                            <!-- Slide 4 -->
                             <div class="min-w-full flex justify-center">
-                                <img src="{% static 'product4.png' %}" alt="Product 3" class="h-28 md:h-[650px] object-contain"/>
+                                <img src="{% static 'product4.png' %}" alt="Product 4" class="h-28 md:h-[650px] object-contain"/>
                             </div>
 
-                                                        <!-- Slide 1 -->
+                            <!-- Slide 1 (repeat) -->
                             <div class="min-w-full flex justify-center">
                                 <img src="{% static 'product1.png' %}" alt="Product 1" class="h-28 md:h-[650px] object-contain"/>
                             </div>
 
-                            <!-- Slide 2 -->
+                            <!-- Slide 2 (repeat) -->
                             <div class="min-w-full flex justify-center">
                                 <img src="{% static 'product2.png' %}" alt="Product 2" class="h-28 md:h-[650px] object-contain"/>
                             </div>
@@ -132,27 +185,26 @@
         </div>
     </section>
 
-    <!-- DEVIDER -->
+    <!-- DIVIDER -->
     <div class="flex justify-center py-8">
-        <div class="w-16 h-1 bg-white rounded"></div>
+        <div class="w-16 h-1 bg-white rounded fade-in-up"></div>
     </div>
 
     <!-- Categories Section -->
     <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                <h2 class="fade-in-up text-4xl md:text-5xl font-bold text-white mb-6">
                     Our categories
                 </h2>
-                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                <p class="fade-in-up stagger-1 text-white text-lg max-w-3xl mx-auto leading-relaxed">
                     Browse product categories to find solutions tailored to your needs.
                 </p>
             </div>
 
             <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {% for category in categories %}
-                <a href="{% url "product_list" %}?selected_category={{category.id}}" class="block bg-[#162F0B] rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-lg transition">
-
+                <a href="{% url "product_list" %}?selected_category={{category.id}}" class="scale-in stagger-{{ forloop.counter|divisibleby:4|yesno:'4,1' }} block bg-[#162F0B] rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-lg transition">
                     <h3 class="text-xl font-bold text-white">{{ category.name }}</h3>
                     {% if category.description %}
                         <p class="text-gray-300 text-sm mt-2">{{ category.description }}</p>
@@ -165,9 +217,9 @@
         </div>
     </section>
 
-    <!-- DEVIDER -->
+    <!-- DIVIDER -->
     <div class="flex justify-center py-8">
-        <div class="w-16 h-1 bg-white rounded"></div>
+        <div class="w-16 h-1 bg-white rounded fade-in-up"></div>
     </div>
 
     <!-- Values -->
@@ -178,38 +230,36 @@
 
         <div class="max-w-7xl mx-auto relative z-10">
             <div class="text-center mb-12">
-                <p class="text-white text-sm uppercase tracking-wide mb-3">Values</p>
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                <p class="fade-in-up text-white text-sm uppercase tracking-wide mb-3">Values</p>
+                <h2 class="fade-in-up stagger-1 text-4xl md:text-5xl font-bold text-white mb-6">
                     Our commitment to<br>agricultural excellence
                 </h2>
-                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                <p class="fade-in-up stagger-2 text-white text-lg max-w-3xl mx-auto leading-relaxed">
                     Agrobiosmart stands for uncompromising quality and sustainable agricultural<br>solutions.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-[#162F0B] rounded-2xl p-8">
+                <div class="scale-in stagger-1 bg-[#162F0B] rounded-2xl p-8">
                     <img src="{% static 'values-icon-1.png' %}" alt="Values icon 1" class="w-16 h-16 rounded-lg mb-6 object-contain" />
                     <h3 class="text-2xl font-bold text-gray-300 mb-4">Better quality</h3>
-                    <p class="text-gray-300 leading-relaxed text-center">
+                    <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
                         We select only the finest agricultural products to ensure superior performance.
                     </p>
                 </div>
 
-                <div class="bg-[#162F0B] rounded-2xl p-8">
-                    <img src="{% static 'values-icon-2.png' %}" alt="Values icon 1" class="w-16 h-16 rounded-lg mb-6 object-contain" />
-
+                <div class="scale-in stagger-2 bg-[#162F0B] rounded-2xl p-8">
+                    <img src="{% static 'values-icon-2.png' %}" alt="Values icon 2" class="w-16 h-16 rounded-lg mb-6 object-contain" />
                     <h3 class="text-2xl font-bold text-gray-300 mb-4">Authenticity</h3>
-                    <p class="text-gray-300 leading-relaxed text-center">
+                    <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
                         Every product reflects our commitment to genuine, transparent agricultural practices.
                     </p>
                 </div>
 
-                <div class="bg-[#162F0B] rounded-2xl p-8">
-                    <img src="{% static 'values-icon-3.png' %}" alt="Values icon 1" class="w-16 h-16 rounded-lg mb-6 object-contain" />
-
+                <div class="scale-in stagger-3 bg-[#162F0B] rounded-2xl p-8">
+                    <img src="{% static 'values-icon-3.png' %}" alt="Values icon 3" class="w-16 h-16 rounded-lg mb-6 object-contain" />
                     <h3 class="text-2xl font-bold text-gray-300 mb-4">Customer care</h3>
-                    <p class="text-gray-300 leading-relaxed text-center">
+                    <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
                         Our dedicated team supports farmers with expert guidance and personalized solutions.
                     </p>
                 </div>
@@ -217,77 +267,76 @@
         </div>
     </section>
 
-    <!-- DEVIDER -->
+    <!-- DIVIDER -->
     <div class="flex justify-center py-8">
-        <div class="w-16 h-1 bg-white rounded"></div>
+        <div class="w-16 h-1 bg-white rounded fade-in-up"></div>
     </div>
-
 
     <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
-                <p class="text-white text-sm uppercase tracking-wide mb-3">Benefits</p>
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                <p class="fade-in-up text-white text-sm uppercase tracking-wide mb-3">Benefits</p>
+                <h2 class="fade-in-up stagger-1 text-4xl md:text-5xl font-bold text-white mb-6">
                     Why choose<br>Agrobiosmart for your<br>agricultural needs
                 </h2>
-                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                <p class="fade-in-up stagger-2 text-white text-lg max-w-3xl mx-auto leading-relaxed">
                     We deliver innovative solutions that transform agricultural productivity and<br>sustainability.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-12 items-center">
                 <div class="space-y-12">
-                    <div class="text-white flex flex-col items-center justify-center">
+                    <div class="fade-in-left stagger-1 text-white flex flex-col items-center justify-center">
                         <div class="flex items-start gap-4 mb-4">
                             <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-3">Proven performance</h4>
-                        <p class="text-gray-300 leading-relaxed text-center">
-                            Agricultural products tested and validated for maximum crop yield and resilience.
+                        <h4 class="text-xl font-bold mb-3">Quality Over Quantity</h4>
+                        <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
+                            We only use the best raw materials in order to create a wide range of Products with high value and high quality.                        
                         </p>
                     </div>
 
-                    <div class="text-white flex flex-col items-center justify-center">
+                    <div class="fade-in-left stagger-2 text-white flex flex-col items-center justify-center">
                         <div class="flex items-start gap-4 mb-4">
                             <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-3">Sustainable practices</h4>
-                        <p class="text-gray-300 leading-relaxed text-center">
-                            Environmentally conscious solutions that support long-term agricultural ecosystem health.
+                        <h4 class="text-xl font-bold mb-3">Satisfied Customers</h4>
+                        <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
+                            Here at Agrobiosmart We make plants happy and healthy, fast growing. makes our customers 100% satisfied.
                         </p>
                     </div>
                 </div>
 
-                <div class="rounded-2xl aspect-square flex items-center justify-center">
+                <div class="scale-in rounded-2xl aspect-square flex items-center justify-center">
                     <img src="{% static 'products-set-1.png' %}" alt="Products set" class="w-full h-full object-cover rounded-2xl" loading="lazy"/>
                 </div>
 
                 <div class="space-y-12">
-                    <div class="text-white flex flex-col items-center justify-center">
+                    <div class="fade-in-right stagger-1 text-white flex flex-col items-center justify-center">
                         <div class="flex items-start gap-4 mb-4">
                             <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-3">Expert support</h4>
-                        <p class="text-gray-300 leading-relaxed text-center">
-                            Continuous guidance and technical assistance throughout your agricultural journey.
+                        <h4 class="text-xl font-bold mb-3">Healthy Plants</h4>
+                        <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
+                            Most subtrades do not contain enough nutrients. Our Products can help you grow a much healthier and stronger plant.
                         </p>
                     </div>
 
-                    <div class="text-white flex flex-col items-center justify-center">
+                    <div class="fade-in-right stagger-2 text-white flex flex-col items-center justify-center">
                         <div class="flex items-start gap-4 mb-4">
                             <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-3">Innovation</h4>
-                        <p class="text-gray-300 leading-relaxed text-center">
-                            Cutting-edge technologies and research-driven agricultural solutions.
+                        <h4 class="text-xl font-bold mb-3">Compact Solutions</h4>
+                        <p class="text-gray-300 leading-tight text-sm md:text-md text-center">
+                            We know the exact formula to do that. based on since, used with simplicity !  you don't need dozens of products to get healthy plants.
                         </p>
                     </div>
                 </div>
@@ -296,55 +345,140 @@
     </section>
 
     <div class="flex justify-center py-8">
-        <div class="w-16 h-1 bg-white rounded"></div>
+        <div class="w-16 h-1 bg-white rounded fade-in-up"></div>
     </div>
 
     <!-- TESTIMONIALS SECTION -->
     <section class="py-16 px-4 relative overflow-hidden">
         <img src="{% static 'grass.png' %}" alt="Grass background" class="absolute bottom-0 left-0 w-full h-auto object-cover pointer-events-none select-none z-0"/>
         <div class="max-w-7xl mx-auto mb-10">
-            <!-- full-width grass background at bottom -->
-
             <div class="relative z-10">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    <h2 class="fade-in-up text-4xl md:text-5xl font-bold text-white mb-6">
                         Testimonials
                     </h2>
-                    <p class="text-white text-lg">
+                    <p class="fade-in-up stagger-1 text-white text-lg">
                         See What Our Customers Say about Our Products
                     </p>
                 </div>
 
-                <div class="relative">
+                <div class="relative fade-in-up stagger-2">
                     <!-- TESTIMONIALS CAROUSEL -->
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
-                            <div class="text-5xl text-[#22c55e] mb-4">❝</div>
-                            <p class="text-white mb-6 leading-relaxed text-justify">
-                                Lorem ipsum dolor sit amet consectetur. Ornare sociis sapien neque in. Donec suspendisse iaculis ultricies et nunc facilisi cursus nam elit. Massa massa cras consectetur venenatis tortor facilisi at. Risus nunc amet consequat tortor sit proin ipsum consequat sollicitudin. Sagittis tortor .
-                            </p>
-                            <p class="text-[#22c55e] font-semibold">Aizi Belkacem</p>
-                        </div>
+                    <div class="overflow-hidden">
+                        <div id="testimonialTrack" class="flex transition-transform duration-500 ease-in-out">
+                            <!-- Slide 1 -->
+                            <div class="min-w-full grid md:grid-cols-2 gap-8 items-center px-2">
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Lorem ipsum dolor sit amet consectetur. Ornare sociis sapien neque in. Donec suspendisse iaculis ultricies et nunc facilisi cursus nam elit. Massa massa cras consectetur venenatis tortor facilisi at. Risus nunc amet consequat tortor sit proin ipsum consequat sollicitudin.
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Aizi Belkacem</p>
+                                </div>
 
-                        <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
-                            <div class="text-5xl text-[#22c55e] mb-4">❝</div>
-                            <p class="text-white mb-6 leading-relaxed text-justify">
-                                Lorem ipsum dolor sit amet consectetur. Ornare sociis sapien neque in. Donec suspendisse iaculis ultricies et nunc facilisi cursus nam elit. Massa massa cras consectetur venenatis tortor facilisi at. Risus nunc amet consequat tortor sit proin ipsum consequat sollicitudin. Sagittis tortor .
-                            </p>
-                            <p class="text-[#22c55e] font-semibold">Laribi Yacine</p>
-                            <p class="text-gray-400 text-sm">Web Dev | Medicale Student</p>
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Lorem ipsum dolor sit amet consectetur. Ornare sociis sapien neque in. Donec suspendisse iaculis ultricies et nunc facilisi cursus nam elit. Massa massa cras consectetur venenatis tortor facilisi at. Risus nunc amet consequat tortor sit proin ipsum consequat sollicitudin.
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Laribi Yacine</p>
+                                    <p class="text-gray-400 text-sm">Web Dev | Medical Student</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2 -->
+                            <div class="min-w-full grid md:grid-cols-2 gap-8 items-center px-2">
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Exceptional quality and service! The products exceeded my expectations. Highly recommended for anyone looking for premium solutions. The attention to detail is remarkable.
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Sarah Johnson</p>
+                                    <p class="text-gray-400 text-sm">Business Owner</p>
+                                </div>
+
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Outstanding experience from start to finish. The team was professional and delivered exactly what was promised. I couldn't be happier with the results.
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Ahmed Benali</p>
+                                    <p class="text-gray-400 text-sm">Marketing Director</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3 -->
+                            <div class="min-w-full grid md:grid-cols-2 gap-8 items-center px-2">
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Amazing products that truly deliver on their promises. The customer support is top-notch and always ready to help. Definitely worth every penny!
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Emma Williams</p>
+                                    <p class="text-gray-400 text-sm">Designer</p>
+                                </div>
+
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        I've been a customer for years and have never been disappointed. The consistency in quality and service is what keeps me coming back. Highly reliable!
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Karim Mansour</p>
+                                    <p class="text-gray-400 text-sm">Entrepreneur</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4 -->
+                            <div class="min-w-full grid md:grid-cols-2 gap-8 items-center px-2">
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Innovative solutions that have transformed our business operations. The impact has been measurable and significant. We're grateful for their expertise!
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Michael Chen</p>
+                                    <p class="text-gray-400 text-sm">Tech Lead</p>
+                                </div>
+
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        The best decision we made this year. Professional, reliable, and delivers exceptional results every single time. Can't recommend enough!
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Fatima Zahra</p>
+                                    <p class="text-gray-400 text-sm">Project Manager</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 5 -->
+                            <div class="min-w-full grid md:grid-cols-2 gap-8 items-center px-2">
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Absolutely fantastic! The quality surpasses anything else on the market. Their dedication to customer satisfaction is evident in everything they do.
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">James Anderson</p>
+                                    <p class="text-gray-400 text-sm">CEO</p>
+                                </div>
+
+                                <div class="bg-[#162F0B] rounded-3xl p-8 min-h-64 flex flex-col justify-center">
+                                    <div class="text-5xl text-[#22c55e] mb-4">❝</div>
+                                    <p class="text-white mb-6 leading-relaxed text-justify">
+                                        Superior products backed by excellent service. They've earned my trust and loyalty through consistent excellence. A true leader in their field!
+                                    </p>
+                                    <p class="text-[#22c55e] font-semibold">Nadia Boutboul</p>
+                                    <p class="text-gray-400 text-sm">Consultant</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CAROUSEL CONTROLS -->
                     <div class="flex justify-between items-center mt-8">
-                        <button class="text-white text-5xl hover:text-[#22c55e] transition">‹</button>
-                        <div class="flex gap-2">
-                            {% for i in "12345" %}
-                            <div class="w-3 h-3 rounded-full bg-[#22c55e] {% if i == '1' %}ring-2 ring-white{% else %}opacity-50{% endif %}"></div>
-                            {% endfor %}
+                        <button id="prevBtn" class="text-white text-5xl hover:text-[#22c55e] transition">‹</button>
+                        <div id="dotsContainer" class="flex gap-2">
+                            <!-- Dots will be generated by JavaScript -->
                         </div>
-                        <button class="text-white text-5xl hover:text-[#22c55e] transition">›</button>
+                        <button id="nextBtn" class="text-white text-5xl hover:text-[#22c55e] transition">›</button>
                     </div>
 
                     <!-- DECORATIVE LEAVES -->
@@ -360,43 +494,145 @@
             </div>
         </div>
     </section>
-    <br>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('testimonialTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dotsContainer');
+        
+        const slides = track.children;
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let autoPlayInterval;
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'w-3 h-3 rounded-full bg-[#22c55e] opacity-50 cursor-pointer transition-all';
+            if (i === 0) {
+                dot.classList.remove('opacity-50');
+            }
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.children;
+
+        function updateSlide() {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update dots
+            Array.from(dots).forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.remove('opacity-50');
+                } else {
+                    dot.classList.add('opacity-50');
+                }
+            });
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+            resetAutoPlay();
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlide();
+        }
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoPlay();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoPlay();
+        });
+
+        // Start autoplay
+        startAutoPlay();
+
+        // Pause on hover
+        track.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+        track.addEventListener('mouseleave', startAutoPlay);
+    });
+    </script>
+
+    <br>
+    <br>
 
     <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-8xl font-bold text-white mb-6">
+                <h2 class="fade-in-up text-4xl md:text-8xl font-bold text-white mb-6">
                     Follow us @Agrobiosmart 
                 </h2>
-                <p class="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+                <p class="fade-in-up stagger-1 text-white text-lg max-w-3xl mx-auto leading-relaxed">
                     Join our Facebook | Instagram Community for Extra information !
                 </p>
             </div>
-            <div class="flex justify-center items-center">
-                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px]  overflow-hidden">
+            <div class="flex justify-center items-center fade-in-up stagger-2">
+                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px] overflow-hidden">
                     <img src="{% static 'social-media-1.png' %}" alt="Social media 1" class="w-full h-full object-cover"/>
                 </a>
-                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px]  overflow-hidden">
+                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px] overflow-hidden">
                     <img src="{% static 'social-media-2.png' %}" alt="Social media 2" class="w-full h-full object-cover"/>
                 </a>
-                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px]  overflow-hidden">
+                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px] overflow-hidden">
                     <img src="{% static 'social-media-3.png' %}" alt="Social media 3" class="w-full h-full object-cover"/>
                 </a>
-                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px]  overflow-hidden">
+                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px] overflow-hidden">
                     <img src="{% static 'social-media-4.png' %}" alt="Social media 4" class="w-full h-full object-cover"/>
                 </a>
-                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px]  overflow-hidden">
+                <a href="#" class="block w-28 h-28 md:w-[250px] md:h-[350px] overflow-hidden">
                     <img src="{% static 'social-media-5.png' %}" alt="Social media 5" class="w-full h-full object-cover"/>
                 </a>
             </div>
-
         </div>
     </section>
 
-
     <div class="flex justify-center py-8">
-        <div class="w-16 h-1 bg-white rounded"></div>
+        <div class="w-16 h-1 bg-white rounded fade-in-up"></div>
     </div>
+
+    <!-- Scroll Animation Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        animatedElements.forEach(el => observer.observe(el));
+    });
+    </script>
 
 {% endblock content %}

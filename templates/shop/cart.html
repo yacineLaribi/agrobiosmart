@@ -79,8 +79,8 @@
 
                                 <!-- Price -->
                                 <div class="text-right">
-                                    <p class="text-gray-400 text-sm mb-1">{{ item.price }} DZD each</p>
-                                    <p class="text-2xl font-bold text-white">{{ item.total_price }} DZD</p>
+                                    <p class="text-gray-400 text-sm mb-1">${{ item.price }} each</p>
+                                    <p class="text-2xl font-bold text-white">${{ item.total_price }}</p>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                     <div class="space-y-4 mb-6">
                         <div class="flex items-center justify-between text-gray-400">
                             <span>Items ({{ cart|length }})</span>
-                            <span class="text-white font-semibold">{{ cart.get_total_price }} DZD</span>
+                            <span class="text-white font-semibold">${{ cart.get_total_price }}</span>
                         </div>
                         <div class="flex items-center justify-between text-gray-400">
                             <span>Shipping</span>
@@ -118,7 +118,7 @@
                     <div class="border-t border-white/10 pt-6 mb-6">
                         <div class="flex items-center justify-between">
                             <span class="text-xl font-semibold text-white">Total</span>
-                            <span class="text-3xl font-bold text-white">{{ cart.get_total_price }} DZD</span>
+                            <span class="text-3xl font-bold text-white">${{ cart.get_total_price }}</span>
                         </div>
                     </div>
 
